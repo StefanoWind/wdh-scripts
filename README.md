@@ -6,7 +6,6 @@ Clone on you local machine and then add a configuration file contaning your Wind
 The yaml file can be created as a text file like:
 
 username: 'myusername'
-
-password: 'mypassowrd'
+password: 'mypassword'
 
 and then saved as "config.yaml".
