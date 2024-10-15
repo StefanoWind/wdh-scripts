@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Plot data availability form WDH
+Search, download data and plot timelines from Wind Data hub
 """
 
 import os
