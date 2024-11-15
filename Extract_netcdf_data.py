@@ -23,9 +23,11 @@ channels=['wfip3/barg.assist.tropoe.z01.c0',
           'wfip3/nant.assist.tropoe.z01.c0',
           'wfip3/rhod.assist.tropoe.z01.c0']
 
+variables=['temperature','sigma_temperature','waterVapor','sigma_waterVapor','gamma','rmsr','lwp','cbh']
+
 MFA=False#use multi-factor authentication (for CRADA-protected channels)
 
-sdate='20240724000000'#start date
+sdate='20240501000000'#start date
 edate='20240801000000'#end date
 
 #%% Initialization
@@ -59,7 +61,7 @@ for channel in channels:
     }
     
     utl.mkdir(os.path.join('data',channel))
-    a2e.download_with_order(_filter, path=os.path.join('data',channel),replace=False)
+    # a2e.download_with_order(_filter, path=os.path.join('data',channel),replace=False)
     
 #%% Output
 for channel in channels:
@@ -75,8 +77,21 @@ for channel in channels:
         
         sel=(t_file>=datetime.strptime(sdate,'%Y%m%d%H%M%S'))*(t_file<=datetime.strptime(edate,'%Y%m%d%H%M%S'))
         if np.sum(sel)>0:
-            Data=xr.open_mfdataset(files[sel])
-            Data.to_netcdf(os.path.join(cd,'data/'+channel.split('/')[1]+'.'+sdate[:8]+'.'+sdate[8:]+'.'+edate[:8]+'.'+edate[8:]+'.nc'))
+            Data_all=None
+            for f in files[sel]:
+                try:
+                    Data= xr.open_dataset(f)[variables]
+                    if Data_all is None:
+                        Data_all = Data # First file initializes the dataset
+                    else:
+                        try:
+                            Data_all = xr.concat([Data_all, Data], dim="time")  # Concatenate along time
+                        except:
+                            print('Could not concatenate '+f)
+                except:
+                    print('Could not load '+f)
+            if Data is not None:
+                Data.to_netcdf(os.path.join(cd,'data/'+channel.split('/')[1]+'.'+sdate[:8]+'.'+sdate[8:]+'.'+edate[:8]+'.'+edate[8:]+'.nc'))
         else:
             print('No files found in '+channel+' in the specified period')
     else:
