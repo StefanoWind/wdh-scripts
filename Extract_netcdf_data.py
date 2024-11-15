@@ -90,8 +90,8 @@ for channel in channels:
                             print('Could not concatenate '+f)
                 except:
                     print('Could not load '+f)
-            if Data is not None:
-                Data.to_netcdf(os.path.join(cd,'data/'+channel.split('/')[1]+'.'+sdate[:8]+'.'+sdate[8:]+'.'+edate[:8]+'.'+edate[8:]+'.nc'))
+            if Data_all is not None:
+                Data_all.to_netcdf(os.path.join(cd,'data/'+channel.split('/')[1]+'.'+sdate[:8]+'.'+sdate[8:]+'.'+edate[:8]+'.'+edate[8:]+'.nc'))
         else:
             print('No files found in '+channel+' in the specified period')
     else:
