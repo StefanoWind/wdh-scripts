@@ -22,8 +22,6 @@ warnings.filterwarnings('ignore')
 
 #%% Inputs
 
-#WDH info
-
 #time range
 sdate='20230101'#[%Y%m%d] start date
 edate='20230103'#[%Y%m%d] end date
@@ -44,7 +42,6 @@ ext={'A1':'',
     'H':''}
 
 MFA=False#use multi-factor authentication (for CRADA-protected channels)
-
 download=True#download selected data
 
 #graphics
