@@ -6,6 +6,8 @@ Search, download data and plot timelines from Wind Data hub
 import os
 cd=os.getcwd()
 import sys
+sys.path.append(os.path.join(cd,'dap-py'))
+from doe_dap_dl import DAP
 from datetime import datetime
 from datetime import timedelta
 import numpy as np
@@ -23,39 +25,51 @@ warnings.filterwarnings('ignore')
 #%% Inputs
 
 #time range
-sdate='20230101'#[%Y%m%d] start date
-edate='20230103'#[%Y%m%d] end date
+sdate='20240501'#[%Y%m%d] start date
+edate='20241114'#[%Y%m%d] end date
 
 #channel names
-channels={'A1':'awaken/sa1.lidar.z03.c1',
-          'A2':'awaken/sa2.lidar.z01.c1',
-          'H':'awaken/sh.lidar.z02.c1'}
+channels={'barg':'wfip3/barg.assist.tropoe.z01.c0'}
 
 #file formats
-formats={'A1':'nc',
-         'A2':'nc',
-         'H':'nc'}
+formats={'barg':'nc',
+          'rhod':'nc'}
 
 #extension e.g. user1 or rhi or assistsummary (put '' if not applicable)
-ext={'A1':'',
-    'A2':'',
-    'H':''}
+ext={'barg':'',
+    'rhod':''}
 
 MFA=False#use multi-factor authentication (for CRADA-protected channels)
-download=True#download selected data
+download=False#download selected data
 
 #graphics
 time_res=3600*24#[s] time duration of one file in the timeline
 
 #%% Functions
+def datenum(string,format="%Y-%m-%d %H:%M:%S.%f"):
+    '''
+    Turns string date into unix timestamp
+    '''
+    from datetime import datetime
+    num=(datetime.strptime(string, format)-datetime(1970, 1, 1)).total_seconds()
+    return num
+
+def datestr(num,format="%Y-%m-%d %H:%M:%S.%f"):
+    '''
+    Turns Unix timestamp into string
+    '''
+    from datetime import datetime
+    string=datetime.utcfromtimestamp(num).strftime(format)
+    return string
+
 def dap_search(channel,sdate,edate,file_type,ext1,time_search=30):
     '''
     Wrapper for a2e.search to avoid timeout:
         Inputs: channel name, start date, end date, file format, extention in WDH name, number of days scanned at each loop
         Outputs: list of files mathing the criteria
     '''
-    dates_num=np.arange(utl.datenum(sdate,'%Y%m%d%H%M%S'),utl.datenum(edate,'%Y%m%d%H%M%S'),time_search*24*3600)
-    dates=[utl.datestr(d,'%Y%m%d%H%M%S') for d in dates_num]+[edate]
+    dates_num=np.arange(datenum(sdate,'%Y%m%d%H%M%S'),datenum(edate,'%Y%m%d%H%M%S'),time_search*24*3600)
+    dates=[datestr(d,'%Y%m%d%H%M%S') for d in dates_num]+[edate]
     search_all=[]
     for d1,d2 in zip(dates[:-1],dates[1:]):
         
@@ -90,13 +104,7 @@ def dap_search(channel,sdate,edate,file_type,ext1,time_search=30):
 #%% Initialization
 with open(os.path.join(cd,'config.yaml'), 'r') as fid:
     config = yaml.safe_load(fid)
-    
-#imports
-sys.path.append(os.path.join(cd,'utils'))
-sys.path.append(os.path.join(cd,'dap-py'))
-import utils as utl
-from doe_dap_dl import DAP
-    
+
 #WDH setup
 a2e = DAP('a2e.energy.gov',confirm_downloads=False)
 if MFA==False:

@@ -7,13 +7,14 @@ Download and clamp netcdf datamfrom multiple channels
 import os
 cd=os.path.dirname(__file__)
 import sys
+sys.path.append(os.path.join(cd,'dap-py'))
+from doe_dap_dl import DAP
 import glob
 import yaml
 import xarray as xr
 import re
 from datetime import datetime
 import numpy as np
-
 
 #%% Inputs
 
@@ -36,12 +37,6 @@ edate='20240801000000'#end date
 with open(os.path.join(cd,'config.yaml'), 'r') as fid:
     config = yaml.safe_load(fid)
     
-#imports
-sys.path.append(os.path.join(cd,'utils'))
-sys.path.append(os.path.join(cd,'dap-py'))
-import utils as utl
-from doe_dap_dl import DAP
-    
 #WDH setup
 a2e = DAP('a2e.energy.gov',confirm_downloads=False)
 if MFA==False:
@@ -60,7 +55,7 @@ for channel in channels:
         'file_type':'nc'
     }
     
-    utl.mkdir(os.path.join('data',channel))
+    os.makedirs(os.path.join('data',channel),exist_ok=True)
     # a2e.download_with_order(_filter, path=os.path.join('data',channel),replace=False)
     
 #%% Output
