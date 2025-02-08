@@ -12,7 +12,8 @@ and then saved as "config.yaml".
 
 
 For the general download use the download.py as follows:
-python download.py <absolute_path_to_download_order_file> <absolute_path_where_data_are_saved>
+
+`python download.py <absolute_path_to_download_order_file> <absolute_path_where_data_are_saved>`
 
 The download order file is an xlsx with columns:
 - channel: channel on hte WDH, including project
