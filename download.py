@@ -6,11 +6,12 @@ General data downloader
 import os
 cd=os.getcwd()
 import sys
+sys.path.append(os.path.join(cd,'dap-py'))
+from doe_dap_dl import DAP
 from matplotlib import pyplot as plt
 import yaml
 import matplotlib
 import warnings
-from doe_dap_dl import DAP
 import pandas as pd
 
 matplotlib.rcParams['font.family'] = 'serif'
