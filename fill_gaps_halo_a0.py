@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-General data downloader
+Download raw hpl files if a0 file is not present
 """
 
 import os

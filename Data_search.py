@@ -11,6 +11,7 @@ from doe_dap_dl import DAP
 from datetime import datetime
 from datetime import timedelta
 import numpy as np
+import utils as utl
 from matplotlib import pyplot as plt
 import yaml
 import matplotlib
@@ -45,62 +46,6 @@ download=False#download selected data
 #graphics
 time_res=3600*24#[s] time duration of one file in the timeline
 
-#%% Functions
-def datenum(string,format="%Y-%m-%d %H:%M:%S.%f"):
-    '''
-    Turns string date into unix timestamp
-    '''
-    from datetime import datetime
-    num=(datetime.strptime(string, format)-datetime(1970, 1, 1)).total_seconds()
-    return num
-
-def datestr(num,format="%Y-%m-%d %H:%M:%S.%f"):
-    '''
-    Turns Unix timestamp into string
-    '''
-    from datetime import datetime
-    string=datetime.utcfromtimestamp(num).strftime(format)
-    return string
-
-def dap_search(channel,sdate,edate,file_type,ext1,time_search=30):
-    '''
-    Wrapper for a2e.search to avoid timeout:
-        Inputs: channel name, start date, end date, file format, extention in WDH name, number of days scanned at each loop
-        Outputs: list of files mathing the criteria
-    '''
-    dates_num=np.arange(datenum(sdate,'%Y%m%d%H%M%S'),datenum(edate,'%Y%m%d%H%M%S'),time_search*24*3600)
-    dates=[datestr(d,'%Y%m%d%H%M%S') for d in dates_num]+[edate]
-    search_all=[]
-    for d1,d2 in zip(dates[:-1],dates[1:]):
-        
-        if ext1!='':
-            _filter = {
-                'Dataset': channel,
-                'date_time': {
-                    'between': [d1,d2]
-                },
-                'file_type': file_type,
-                'ext1':ext1, 
-            }
-        else:
-            _filter = {
-                'Dataset': channel,
-                'date_time': {
-                    'between': [d1,d2]
-                },
-                'file_type': file_type,
-            }
-        
-        search=a2e.search(_filter)
-        
-        if search is None:
-            print('Invalid authentication')
-            return None
-        else:
-            search_all+=search
-    
-    return search_all
-
 #%% Initialization
 with open(os.path.join(cd,'config.yaml'), 'r') as fid:
     config = yaml.safe_load(fid)
@@ -117,7 +62,7 @@ plt.figure(figsize=(18,len(channels)))
 ctr=1
 for s in channels:
     
-    files=dap_search(channels[s],sdate+'000000',edate+'000000',formats[s],ext[s])#search files
+    files=utl.dap_search(channels[s],sdate+'000000',edate+'000000',formats[s],ext[s])#search files
 
     #download
     if download:
