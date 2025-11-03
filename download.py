@@ -36,7 +36,7 @@ with open(os.path.join(cd,'config.yaml'), 'r') as fid:
     config = yaml.safe_load(fid)
     
 DO=pd.read_excel(source_order)
-a2e = DAP('a2e.energy.gov',confirm_downloads=False)
+a2e = DAP('wdh.energy.gov',confirm_downloads=False)
 
 #%% Main
 for i in DO.index:
