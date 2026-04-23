@@ -7,8 +7,8 @@ Useful scripts to download data from the Wind Data Hub.
 - Clone on your local machine.
 - Clone the dap-py repository on your local machine from [https://github.com/StefanoWind/dap-py].
 - Install the dap-py repository into your Python environment:
-  'cd dap-py'
-  'pip install .'
+  `cd dap-py`
+  `pip install .`
 - Create the config.yaml file as:
 username: 'myusername'  
 password: 'mypassword'
