@@ -1,16 +1,20 @@
 # wdh-scripts
-Useful scripts for the Wind Data Hub.
 
-Clone on your local machine and then add a configuration file containing your Wind Data Hub credentials. 
+## General
+Useful scripts to download data from the Wind Data Hub.
 
-The yaml file can be created as a text file like:
-
+## Set up
+- Clone on your local machine.
+- Clone the dap-py repository on your local machine from [https://github.com/StefanoWind/dap-py].
+- Install the dap-py repository into your Python environment:
+  'cd dap-py'
+  'pip install .'
+- Create the config.yaml file as:
 username: 'myusername'  
 password: 'mypassword'
 
-and then saved as "config.yaml".
-
-For the general download, use the download.py as follows:
+## Use
+Run the download.py as follows:
 
 `python download.py <absolute_path_to_download_order_file> <absolute_path_where_data_are_saved>`
 
