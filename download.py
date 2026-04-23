@@ -6,33 +6,24 @@ General data downloader
 import os
 cd=os.getcwd()
 import sys
-sys.path.append(os.path.join(cd,'dap-py'))
 from doe_dap_dl import DAP
-from matplotlib import pyplot as plt
 import yaml
-import matplotlib
 import warnings
 import pandas as pd
-
-matplotlib.rcParams['font.family'] = 'serif'
-matplotlib.rcParams['mathtext.fontset'] = 'cm' 
-matplotlib.rcParams['font.size'] = 12
-
-plt.close('all')
 warnings.filterwarnings('ignore')
 
 #%% Inputs
-source_config=os.path.join(cd,'config.yaml')
+source_config=os.path.join(cd,'configs','config.yaml')
 
 if len(sys.argv)==1:
-    source_order=os.path.join(cd,'data','download_order2.xlsx')#source of download order 
-    save_path=os.path.join('D:/experimental-dataset')#where to save data
+    source_order=os.path.join(cd,'data','download_order_awaken.xlsx')#source of download order 
+    save_path=os.path.join(cd,'data')#where to save data
 else:
     source_order=sys.argv[1]
     save_path=sys.argv[2]
 
 #%% Initialization
-with open(os.path.join(cd,'config.yaml'), 'r') as fid:
+with open(source_config, 'r') as fid:
     config = yaml.safe_load(fid)
     
 DO=pd.read_excel(source_order)
