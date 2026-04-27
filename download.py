@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-General data downloader
+General data downloader for Wind Data Hub
 """
 
 import os
