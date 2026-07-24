@@ -49,8 +49,10 @@ for i in DO.index:
         hours=DO['hours'][i]
         
         if MFA==False:#if multi factor authentication is needed
+            print('Authenticating with simple login')
             a2e.setup_cert_auth(username=config['username'], password=config['password'])
         else:
+            print('Authenticating with MFA')
             a2e.setup_two_factor_auth(username=config['username'], password=config['password'])
            
         if ~np.isnan(hours):
