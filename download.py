@@ -86,8 +86,8 @@ for i in DO.index:
                 print(f'Download order: {channel} from {sd} to {ed} for format {ftype} and ext1 {ext}')
         
         
-        os.makedirs(os.path.join(save_path,channel),exist_ok=True)
-        a2e.download_with_order(_filter, path=os.path.join(save_path,channel),replace=False)
+            os.makedirs(os.path.join(save_path,channel),exist_ok=True)
+            a2e.download_with_order(_filter, path=os.path.join(save_path,channel),replace=False)
     except:
         print(f'Request {i} in {source_order} failed.')
    
