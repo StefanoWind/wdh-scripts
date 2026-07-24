@@ -52,8 +52,8 @@ for i in DO.index:
             a2e.setup_cert_auth(username=config['username'], password=config['password'])
         else:
             a2e.setup_two_factor_auth(username=config['username'], password=config['password'])
-            
-        if np.isnan(hours):
+           
+        if ~np.isnan(hours):
             time_bins=np.arange(strtime_to_dt64(sdate),strtime_to_dt64(edate)+np.timedelta64(hours,'h')/2,np.timedelta64(hours,'h'))
         else:
             time_bins=[strtime_to_dt64(sdate),strtime_to_dt64(edate)]
