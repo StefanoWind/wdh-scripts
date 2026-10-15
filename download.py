@@ -17,7 +17,7 @@ warnings.filterwarnings('ignore')
 source_config=os.path.join(cd,'configs','config.yaml')
 
 if len(sys.argv)==1:
-    source_order=os.path.join(cd,'data','download_order_loads.xlsx')#source of download order 
+    source_order=os.path.join(cd,'data','download_order_wfip3.xlsx')#source of download order 
     save_path=os.path.join(cd,'data')#where to save data
 else:
     source_order=sys.argv[1]
